@@ -1,19 +1,20 @@
 const { Router } = require('express');
-const { guestPost, 
-        guestGet, 
-        guestPatch, 
+const { userGet, 
+        userGet_x_id, 
+        userPost, 
         guestPut, 
         guestDelete, 
-       } = require('../controllers/guest');
+       } = require('../controllers/user');
 const router = Router();
 
+router.get('/', userGet);
+router.get('/item/', userGet_x_id);
+router.post('/', userPost);
 
-router.post('/', guestPost);
-router.get('/', guestGet);
+/*
 router.patch('/', guestPatch);
 router.put('/:id', guestPut);
 router.delete('/', guestDelete);
-
-
+*/
 
 module.exports = router;

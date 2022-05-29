@@ -1,7 +1,15 @@
-const { request,
-    response } = require('express');
+const { request, response } = require('express');
+const { User } = require('../models/user');
 
-const guestGet = (req = request, res = response) => {
+const userGet = async (req = request, res = response) => {
+    const user = new User();
+    const result = await user.getUserList();
+
+    res.json({
+        msg: "put API - s",
+        result
+    });
+    /*
     const {
         id,
         name="",
@@ -29,20 +37,38 @@ const guestGet = (req = request, res = response) => {
             location,
             created_at,
             updated_at,
+
         }
 
 
     );
+    */
 }
-const guestPost = (req, res = response) => {
+
+const userGet_x_id = async (req = request, res = response) => {
+    const { id = 0, email = '' } = req.query;
+    console.log('id',id,'email',email);
+    const user = new User(id, email);
+    const result = await user.getUserItem();
+    res.json({
+        msg: "get API - item",
+        result
+    });
+
+}
+const userPost = (req, res = response) => {
     const body = req.body;
     res.json(
         {
             msg: "post API - controlador",
-            body
+            // body
         }
     );
 }
+
+
+
+
 const guestPut = (req, res = response) => {
     const { id } = req.params;
     res.json(
@@ -60,17 +86,19 @@ const guestPatch = (req, res = response) => {
     );
 }
 const guestDelete = (req, res = response) => {
+
     res.json(
         {
             msg: "delete API - controlador"
         }
+
     );
 }
 
 module.exports = {
-    guestPost,
-    guestGet,
-    guestPatch,
+    userGet,
+    userGet_x_id,
+    userPost,
     guestPut,
     guestDelete,
 }
