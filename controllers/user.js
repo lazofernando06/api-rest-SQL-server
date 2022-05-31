@@ -1,82 +1,65 @@
 const { request, response } = require('express');
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 const userGet = async (req = request, res = response) => {
     const user = new User();
     const result = await user.getUserList();
-
+    const total = Object.keys(result).length
     res.json({
-        msg: "put API - s",
+        msg: "get API - totales",
+        total,
         result
     });
-    /*
-    const {
-        id,
-        name="",
-        description="",
-        price="",
-        stars="",
-        people="",
-        selected_people="",
-        img="",
-        location="",
-        created_at="",
-        updated_at
-    } = req.query;
-    res.json(
-        {
-            msg: "get API - controlador",
-            id,
-            name,
-            description,
-            price,
-            stars,
-            people,
-            selected_people,
-            img,
-            location,
-            created_at,
-            updated_at,
-
-        }
-
-
-    );
-    */
 }
-
 const userGet_x_id = async (req = request, res = response) => {
     const { id = 0, email = '' } = req.query;
-    console.log('id',id,'email',email);
-    const user = new User(id, email);
+    const idUser = id;
+    const emailUser = email;
+    const user = new User({ idUser, emailUser });
     const result = await user.getUserItem();
+
     res.json({
-        msg: "get API - item",
+        msg: "get API - x item",
         result
     });
-
 }
-const userPost = (req, res = response) => {
-    const body = req.body;
-    res.json(
-        {
-            msg: "post API - controlador",
-            // body
-        }
-    );
+const userPost = async (req = request, res = response) => {
+    const { nameUser,
+        lastnameUser,
+        emailUser,
+        passwordUser,
+        imgUser = '',
+        roleUser = 'USER_ROLE',
+        statusUser = 'ACTIVE',
+        googleUser = 'NO ENABLE' } = req.body;
+    const user = new User({
+        nameUser,
+        lastnameUser,
+        emailUser,
+        passwordUser,
+        imgUser,
+        roleUser,
+        statusUser,
+        googleUser
+    });
+
+    const newUser = await user.postInsertUser();
+    res.json({
+        newUser
+    });
 }
+const userPut = async (req = request, res = response) => {
+    const { idUser = 0, emailUser = '' } = req.query;
+    const { nameUser, lastnameUser, passwordUser, imgUser, roleUser, statusUser, googleUser } = req.body;
+
+    const user = new User({ idUser, emailUser, nameUser, lastnameUser, passwordUser, imgUser, roleUser, statusUser, googleUser });
 
 
-
-
-const guestPut = (req, res = response) => {
-    const { id } = req.params;
-    res.json(
-        {
-            msg: "put API - controlador",
-            id
-        }
-    );
+    const result = await user.putUpDataUser();
+    res.json({
+        msg: "put API - controlador",
+        result
+    });
 }
 const guestPatch = (req, res = response) => {
     res.json(
@@ -99,6 +82,6 @@ module.exports = {
     userGet,
     userGet_x_id,
     userPost,
-    guestPut,
+    userPut,
     guestDelete,
 }
