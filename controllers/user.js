@@ -1,4 +1,5 @@
 const { request, response } = require('express');
+const Role = require('../models/role');
 const User = require('../models/user');
 
 const userGet = async (req = request, res = response) => {
@@ -58,6 +59,13 @@ const userPut = async (req = request, res = response) => {
         roleUser,
         statusUser,
         googleUser } = req.body;
+
+
+    const role = new Role({roleUser});
+    console.log('userRole',roleUser);
+    const roleExist = await role.getRoleItem();
+    console.log('algun valor',roleExist);
+
 
     const user = new User({
         idUser,

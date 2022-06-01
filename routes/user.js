@@ -25,11 +25,11 @@ router.post('/', [
         validatorField
 ], userPost);
 router.put('/item/', [
-      //  query('id').custom(idExist),
-      //  query('email').custom(emailExist1),
-      //  check('nameUser', 'El campo es obligatorio').not().isEmpty(),
-      //  check('lastnameUser', 'El campo es obligatorio').not().isEmpty(),
-      check('roleUser').custom(isRoleValidate),
+        query('id').custom(idExist),
+        query('email').custom(emailExist1),
+        check('nameUser', 'El campo es obligatorio').not().isEmpty(),
+        check('lastnameUser', 'El campo es obligatorio').not().isEmpty(),
+        //check('roleUser').custom(isRoleValidate),
         validatorField
 ], userPut);
 router.patch('/item/password/', userPatchPassword);

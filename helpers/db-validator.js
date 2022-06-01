@@ -12,9 +12,9 @@ const emailExist = async (email = '') => {
 }
 
 const isRoleValidate = async (typeRole = '') => {
-    const role = new Role(typeRole);
+    const role = new Role({typeRole});
     console.log(typeRole);
-    const roleExist = await role.getRoleItem();
+    const roleExist = await Role.getRoleItem;
     console.log('hila',roleExist);
     if (!roleExist) {
         throw new Error(`El Rol: ${typeRole} no está registrado en la DB`);

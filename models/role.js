@@ -16,7 +16,7 @@ class Role {
         const result = await pool
             .request()
             .input('@typeRole', sql.VarChar(100), this.typeRole)
-            .query('GET_SP_SELECT_role @typeRole')
+            .execute('GET_SP_SELECT_role1 @typeRole')
            // .query('GET_SP_SELECT_User @idUser')
         pool.close.bind(pool);
         console.log('AQUI');

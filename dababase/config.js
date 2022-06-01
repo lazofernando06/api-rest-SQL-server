@@ -6,6 +6,13 @@ const config = {
     database: process.env.DB_NAME1,
     server: 'localhost',
     /*
+    "server"   : "Servername",
+    "database" : "DBName",
+    "user"     : "Username",
+    "password" : "Passwort",
+    "requestTimeout": "80000"
+
+
       pool: {
         max: 10,
         min: 0,
@@ -16,7 +23,7 @@ const config = {
         encrypt: true, // for azure
         trustServerCertificate: true, // change to true for local dev / self-signed certs
         // trustedconnection:false,
-        //enableArithAbort: true,
+        enableArithAbort: true,
         //encrypt:false
     }
 
