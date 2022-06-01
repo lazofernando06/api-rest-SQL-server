@@ -12,15 +12,14 @@ const userGet = async (req = request, res = response) => {
     });
 }
 const userGet_x_id = async (req = request, res = response) => {
-    const { id = 0, email = '' } = req.query;
-    const idUser = id;
-    const emailUser = email;
+    const { idUser = 0, emailUser = '' } = req.query;
     const user = new User({ idUser, emailUser });
     const result = await user.getUserItem();
 
     res.json({
         msg: "get API - x item",
-        result
+        result,
+
     });
 }
 const userPost = async (req = request, res = response) => {
@@ -49,26 +48,43 @@ const userPost = async (req = request, res = response) => {
     });
 }
 const userPut = async (req = request, res = response) => {
-    const { idUser = 0, emailUser = '' } = req.query;
-    const { nameUser, lastnameUser, passwordUser, imgUser, roleUser, statusUser, googleUser } = req.body;
+    var { id = 0, email = '' } = req.query;
+    const idUser = id * 1;
+    const emailUser = email;
+    const {
+        nameUser,
+        lastnameUser,
+        imgUser,
+        roleUser,
+        statusUser,
+        googleUser } = req.body;
 
-    const user = new User({ idUser, emailUser, nameUser, lastnameUser, passwordUser, imgUser, roleUser, statusUser, googleUser });
+    const user = new User({
+        idUser,
+        emailUser,
+        nameUser,
+        lastnameUser,
+        imgUser,
+        roleUser,
+        statusUser,
+        googleUser
+    });
 
+    const result= await user.putUpDataUser();
 
-    const result = await user.putUpDataUser();
     res.json({
         msg: "put API - controlador",
         result
     });
 }
-const guestPatch = (req, res = response) => {
+const userPatchPassword = (req, res = response) => {
     res.json(
         {
             msg: "patch API - controlador"
         }
     );
 }
-const guestDelete = (req, res = response) => {
+const userDelete = (req, res = response) => {
 
     res.json(
         {
@@ -83,5 +99,6 @@ module.exports = {
     userGet_x_id,
     userPost,
     userPut,
-    guestDelete,
+    userPatchPassword,
+    userDelete
 }
