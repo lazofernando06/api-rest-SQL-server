@@ -4,22 +4,21 @@ const sql = require('mssql');
 class Role {
 
     constructor(
-        idRole,
-        typeRole
-        ) {
-        this.idRole = idRole * 1;
-        this.typeRole = typeRole;
+        objRole={
+            idRole,
+            typeRole
+        }) {
+        this.idRole = objRole.idRole * 1;
+        this.typeRole = objRole.typeRole;
     }
 
     async getRoleItem() {
         const pool = (await dbConnection());
         const result = await pool
             .request()
-            .input('@typeRole', sql.VarChar(100), this.typeRole)
-            .execute('GET_SP_SELECT_role1 @typeRole')
-           // .query('GET_SP_SELECT_User @idUser')
+            .input('typeRole', sql.VarChar(100), this.typeRole)
+            .query('GET_SP_SELECT_role @typeRole')
         pool.close.bind(pool);
-        console.log('AQUI');
         return result.recordset;
     }
 }

@@ -13,25 +13,26 @@ const userGet = async (req = request, res = response) => {
     });
 }
 const userGet_x_id = async (req = request, res = response) => {
-    const { idUser = 0, emailUser = '' } = req.query;
+    const { id = 0, email = '' } = req.query;
+    const idUser = id;
+    const emailUser = email;
     const user = new User({ idUser, emailUser });
     const result = await user.getUserItem();
-
     res.json({
         msg: "get API - x item",
         result,
-
     });
 }
 const userPost = async (req = request, res = response) => {
-    const { nameUser,
-        lastnameUser,
-        emailUser,
-        passwordUser,
-        imgUser = '',
+    const query =req.body;
+    const user = new User(query);
+    user.showData();
+
+    /*
+    const { idUser,passwordUser,
         roleUser = 'USER_ROLE',
         statusUser = 'ACTIVE',
-        googleUser = 'NO ENABLE' } = req.body;
+        googleUser = 'NO ENABLE', ...ttt } = req.body;
     const user = new User({
         nameUser,
         lastnameUser,
@@ -42,10 +43,11 @@ const userPost = async (req = request, res = response) => {
         statusUser,
         googleUser
     });
-
-    const newUser = await user.postInsertUser();
+*/
+  //  const newUser = await user.postInsertUser();
     res.json({
-        newUser
+        msg:'hola'
+        // newUser
     });
 }
 const userPut = async (req = request, res = response) => {
@@ -61,10 +63,10 @@ const userPut = async (req = request, res = response) => {
         googleUser } = req.body;
 
 
-    const role = new Role({roleUser});
-    console.log('userRole',roleUser);
+    const role = new Role({ roleUser });
+    console.log('userRole', roleUser);
     const roleExist = await role.getRoleItem();
-    console.log('algun valor',roleExist);
+    console.log('algun valor', roleExist);
 
 
     const user = new User({
@@ -78,7 +80,7 @@ const userPut = async (req = request, res = response) => {
         googleUser
     });
 
-    const result= await user.putUpDataUser();
+    const result = await user.putUpDataUser();
 
     res.json({
         msg: "put API - controlador",

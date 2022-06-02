@@ -25,6 +25,73 @@ class User {
         this.googleUser = objUser.googleUser;
     }
 
+    get idUser() {
+        return this.idUser;
+    }
+    get nameUser() {
+        return this.nameUser;
+    }
+    get lastnameUser() {
+        return this.lastnameUser;
+    }
+    get emailUser() {
+        return this.emailUser;
+    }
+    get passwordUser() {
+        return this.passwordUser;
+    }
+    get imgUser() {
+        return this.imgUser;
+    }
+    get roleUser() {
+        return this.roleUser;
+    }
+    get statusUser() {
+        return this.statusUser;
+    }
+    get googleUser() {
+        return this.googleUser;
+    }
+
+    set idUser(newIdUser) {
+        this.idUser = newIdUser;
+    }
+    set nameUser(newNameUser) {
+        this.nameUser = newNameUser;
+    }
+    set lastnameUser(newLastnameUser) {
+        this.lastnameUser = newLastnameUser;
+    }
+    set emailUser(newEmailUser) {
+        this.emailUser = newEmailUser;
+    }
+    set passwordUser(newPasswordUser) {
+        this.passwordUser = newPasswordUser;
+    }
+    set imgUser(newImgUser) {
+        this.imgUser = newImgUser;
+    }
+    set roleUser(newRoleUser) {
+        this.roleUser = newRoleUser;
+    }
+    set statusUser(newStatusUser) {
+        this.statusUser = newStatusUser;
+    }
+    set googleUser(newGoogleUser) {
+        this.googleUser = newGoogleUser;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     async getUserList() {
         const pool = (await dbConnection());
         const result = await pool
@@ -53,6 +120,7 @@ class User {
     }
 
     async getUserItem() {
+        console.log('idUser', this.idUser);
         if (this.idUser != 0) {
             return this.getID();
         }
@@ -60,6 +128,18 @@ class User {
             return this.getEmail();
         }
     }
+    showData() {
+        console.log(this.idUser);
+        console.log(this.nameUser);
+        console.log(this.lastnameUser);
+        console.log(this.emailUser);
+        console.log(this.passwordUser);
+        console.log(this.imgUser);
+        console.log(this.roleUser);
+        console.log(this.statusUser);
+        console.log(this.googleUser);
+    }
+
     async postInsertUser() {
         const pool = (await dbConnection());
         const result = await pool
