@@ -13,41 +13,29 @@ const userGet = async (req = request, res = response) => {
     });
 }
 const userGet_x_id = async (req = request, res = response) => {
+    const user = new User();
     const { id = 0, email = '' } = req.query;
-    const idUser = id;
-    const emailUser = email;
-    const user = new User({ idUser, emailUser });
-    const result = await user.getUserItem();
+    id == undefined ? user.idUser(0) : user.idUser(id);
+    email == undefined ? user.emailUser('sdsdsdsd') : user.emailUser(email);
+    console.log(user.idUser());
+    console.log(user.emailUser());
+  //  const result = await user.getUserItem();
     res.json({
         msg: "get API - x item",
-        result,
+  //      result,
     });
 }
 const userPost = async (req = request, res = response) => {
-    const query =req.body;
+    const query = req.body;
     const user = new User(query);
-    user.showData();
-
-    /*
-    const { idUser,passwordUser,
-        roleUser = 'USER_ROLE',
-        statusUser = 'ACTIVE',
-        googleUser = 'NO ENABLE', ...ttt } = req.body;
-    const user = new User({
-        nameUser,
-        lastnameUser,
-        emailUser,
-        passwordUser,
-        imgUser,
-        roleUser,
-        statusUser,
-        googleUser
-    });
-*/
-  //  const newUser = await user.postInsertUser();
+    user.roleUser === undefined ? user.imgUser = 'USER_ROLE' : console.log('prueba');
+    user.statusUser = 'ACTIVE';
+    user.googleUser = 'NO ENABLE';
+    user.imgUser === undefined ? user.imgUser = '' : console.log('prueba');
+    const newUser = await user.postInsertUser();
     res.json({
-        msg:'hola'
-        // newUser
+        msg: 'hola',
+        newUser
     });
 }
 const userPut = async (req = request, res = response) => {

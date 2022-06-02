@@ -1,5 +1,5 @@
 alter PROC POST_SP_INSERT_User(
-										@nameUser varchar(50),
+										@nameUser varchar(50)='',
 										@lastmaneUser varchar(50),
 										@emailUser varchar(50),
 										@passwordUser varchar(50),
@@ -38,4 +38,4 @@ begin
 	return
 end
 
--- exec POST_SP_INSERT_User 'Prueba10','Prueba10','prueba10@prueba.com','123456','','USER_ROLE','ACTIVE','NO ENABLE'
+-- exec POST_SP_INSERT_User 'Prueba21','Prueba21','prueba21@prueba.com','123456','','USER_ROLE','ACTIVE','NO ENABLE'

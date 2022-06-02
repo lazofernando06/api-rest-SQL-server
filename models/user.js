@@ -4,93 +4,82 @@ const sql = require('mssql');
 class User {
     constructor(
         objUser = {
-            idUser,
-            nameUser,
-            lastnameUser,
-            emailUser,
-            passwordUser,
-            imgUser,
-            roleUser,
-            statusUser,
-            googleUser,
+            idUser: 0,
+            nameUser: '',
+            lastnameUser: '',
+            emailUser: '',
+            passwordUser: '',
+            imgUser: '',
+            roleUser: '',
+            statusUser: '',
+            googleUser: '',
         }) {
-        this.idUser = objUser.idUser;
-        this.nameUser = objUser.nameUser;
-        this.lastnameUser = objUser.lastnameUser;
-        this.emailUser = objUser.emailUser;
-        this.passwordUser = objUser.passwordUser;
-        this.imgUser = objUser.imgUser;
-        this.roleUser = objUser.roleUser;
-        this.statusUser = objUser.statusUser;
-        this.googleUser = objUser.googleUser;
+        this._idUser = objUser.idUser;
+        this._nameUser = objUser.nameUser;
+        this._lastnameUser = objUser.lastnameUser;
+        this._emailUser = objUser.emailUser;
+        this._passwordUser = objUser.passwordUser;
+        this._imgUser = objUser.imgUser;
+        this._roleUser = objUser.roleUser;
+        this._statusUser = objUser.statusUser;
+        this._googleUser = objUser.googleUser;
     }
 
     get idUser() {
-        return this.idUser;
+        return this._idUser;
     }
     get nameUser() {
-        return this.nameUser;
+        return this._nameUser;
     }
     get lastnameUser() {
-        return this.lastnameUser;
+        return this._lastnameUser;
     }
     get emailUser() {
-        return this.emailUser;
+        return this._emailUser;
     }
     get passwordUser() {
-        return this.passwordUser;
+        return this._passwordUser;
     }
     get imgUser() {
-        return this.imgUser;
+        return this._imgUser;
     }
     get roleUser() {
-        return this.roleUser;
+        return this._roleUser;
     }
     get statusUser() {
-        return this.statusUser;
+        return this._statusUser;
     }
     get googleUser() {
-        return this.googleUser;
+        return this._googleUser;
     }
 
-    set idUser(newIdUser) {
-        this.idUser = newIdUser;
+    set idUser(nIdUser) {
+        this._idUser = nIdUser;
     }
     set nameUser(newNameUser) {
-        this.nameUser = newNameUser;
+        this._nameUser = newNameUser;
     }
     set lastnameUser(newLastnameUser) {
-        this.lastnameUser = newLastnameUser;
+        this._lastnameUser = newLastnameUser;
     }
     set emailUser(newEmailUser) {
-        this.emailUser = newEmailUser;
+        this._emailUser = newEmailUser;
     }
     set passwordUser(newPasswordUser) {
-        this.passwordUser = newPasswordUser;
+        this._passwordUser = newPasswordUser;
     }
     set imgUser(newImgUser) {
-        this.imgUser = newImgUser;
+        this._imgUser = newImgUser;
     }
     set roleUser(newRoleUser) {
-        this.roleUser = newRoleUser;
+        this._roleUser = newRoleUser;
     }
     set statusUser(newStatusUser) {
-        this.statusUser = newStatusUser;
+        this._statusUser = newStatusUser;
     }
     set googleUser(newGoogleUser) {
-        this.googleUser = newGoogleUser;
+        this._googleUser = newGoogleUser;
     }
-
-
-
-
-
-
-
-
-
-
-
 
     async getUserList() {
         const pool = (await dbConnection());
@@ -104,7 +93,7 @@ class User {
         const pool = (await dbConnection());
         const result = await pool
             .request()
-            .input('idUser', sql.Int, this.idUser)
+            .input('idUser', sql.Int, idUser())
             .query('GET_SP_SELECT_User @idUser')
         pool.close.bind(pool);
         return result.recordset
@@ -113,46 +102,35 @@ class User {
         const pool = (await dbConnection());
         const result = await pool
             .request()
-            .input('emailUser', sql.VarChar(100), this.emailUser)
+            .input('emailUser', sql.VarChar(100), emailUser())
             .query('GET_SP_SELECT_Email @emailUser')
         pool.close.bind(pool);
         return result.recordset;
     }
 
     async getUserItem() {
-        console.log('idUser', this.idUser);
-        if (this.idUser != 0) {
+        console.log('idUser', idUser());
+        if (idUser() != 0) {
             return this.getID();
         }
-        if (this.emailUser != '') {
+        if (emailUser() != '') {
             return this.getEmail();
         }
     }
-    showData() {
-        console.log(this.idUser);
-        console.log(this.nameUser);
-        console.log(this.lastnameUser);
-        console.log(this.emailUser);
-        console.log(this.passwordUser);
-        console.log(this.imgUser);
-        console.log(this.roleUser);
-        console.log(this.statusUser);
-        console.log(this.googleUser);
-    }
-
     async postInsertUser() {
         const pool = (await dbConnection());
         const result = await pool
             .request()
-            .input('nameUser', sql.VarChar(50), this.nameUser)
-            .input('nameUser', sql.VarChar(50), this.nameUser)
-            .input('lastnameUser', sql.VarChar(50), this.lastnameUser)
-            .input('emailUser', sql.VarChar(50), this.emailUser)
-            .input('imgUser', sql.VarChar(100), this.imgUser)
-            .input('roleUser', sql.VarChar(100), this.roleUser)
-            .input('statusUser', sql.VarChar(100), this.statusUser)
-            .input('googleUser', sql.VarChar(100), this.googleUser)
-            .query('POST_SP_INSERT_User @nameUser,@lastnameUser,@emailUser,@imgUser,@roleUser,@statusUser,@googleUser')
+            .input('nameUser', sql.VarChar(50), nameUser())
+            .input('lastnameUser', sql.VarChar(50), lastnameUser())
+            .input('emailUser', sql.VarChar(50), emailUser())
+            .input('passwordUser', sql.VarChar(50), passwordUser())
+            .input('imgUser', sql.VarChar(100), imgUser())
+            .input('roleUser', sql.VarChar(100), roleUser())
+            .input('statusUser', sql.VarChar(100), statusUser())
+            .input('googleUser', sql.VarChar(100), googleUser())
+            .execute('POST_SP_INSERT_User')
+        // .query('POST_SP_INSERT_User @nameUser,@lastnameUser,@emailUser,@passwordUser,@imgUser,@roleUser,@statusUser,@googleUser')
         pool.close.bind(pool);
         return result.recordset;
     }
@@ -163,12 +141,12 @@ class User {
         const result = await pool
             .request()
             .input('idUser', sql.Int, recordUser.idUser)
-            .input('nameUser', sql.VarChar(50), this.nameUser)
-            .input('lastnameUser', sql.VarChar(50), this.lastnameUser)
-            .input('imgUser', sql.VarChar(100), this.imgUser)
-            .input('roleUser', sql.VarChar(100), this.roleUser)
-            .input('statusUser', sql.VarChar(100), this.statusUser)
-            .input('googleUser', sql.VarChar(100), this.googleUser)
+            .input('nameUser', sql.VarChar(50), nameUser())
+            .input('lastnameUser', sql.VarChar(50), lastnameUser())
+            .input('imgUser', sql.VarChar(100), imgUser())
+            .input('roleUser', sql.VarChar(100), roleUser())
+            .input('statusUser', sql.VarChar(100), statusUser())
+            .input('googleUser', sql.VarChar(100), googleUser())
             .query('PUT_SP_UPDATA_User @idUser, @nameUser,@lastnameUser,@imgUser,@roleUser,@statusUser,@googleUser')
         pool.close.bind(pool);
         return result.recordset;
