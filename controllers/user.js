@@ -14,9 +14,10 @@ const userGet = async (req = request, res = response) => {
 }
 const userGet_x_id = async (req = request, res = response) => {
     const { id = 0, email = '' } = req.query;
-    const idUser = id;
-    const emailUser = email;
-    const user = new User({ idUser, emailUser });
+    let user = new User();
+    user.idUser === undefined ? user.idUser = 0 : user.idUser = Number(id);
+    user.emailUser === undefined ? user.emailUser = '' : user.emailUser = email;
+
     const result = await user.getUserItem();
     res.json({
         msg: "get API - x item",
@@ -24,67 +25,42 @@ const userGet_x_id = async (req = request, res = response) => {
     });
 }
 const userPost = async (req = request, res = response) => {
-    const query =req.body;
-    const user = new User(query);
-    user.showData();
-
-    /*
-    const { idUser,passwordUser,
-        roleUser = 'USER_ROLE',
-        statusUser = 'ACTIVE',
-        googleUser = 'NO ENABLE', ...ttt } = req.body;
-    const user = new User({
-        nameUser,
-        lastnameUser,
-        emailUser,
-        passwordUser,
-        imgUser,
-        roleUser,
-        statusUser,
-        googleUser
-    });
-*/
-  //  const newUser = await user.postInsertUser();
+    const query = req.body;
+    let user = new User(query);
+    //user.roleUser === undefined ? user.roleUser = 0 : user.roleUser = Number(id);
+    //user.roleUser === undefined ? user.roleUser = 0 : user.roleUser = Number(id);
+    console.log('password', user.passwordUser);
+    const newUser = await user.postInsertUser();
     res.json({
-        msg:'hola'
-        // newUser
+        msg: "post API",
+        newUser
     });
 }
 const userPut = async (req = request, res = response) => {
-    var { id = 0, email = '' } = req.query;
-    const idUser = id * 1;
-    const emailUser = email;
-    const {
-        nameUser,
-        lastnameUser,
-        imgUser,
-        roleUser,
-        statusUser,
-        googleUser } = req.body;
+    const { id, email } = req.query;
+    if (id != undefined && email != undefined) {
+        return console.log('sali a comer');
+    }
+    const { idUser, passwordUser, emailUser, ...query } = req.body;
+    let user = new User(query);
 
-
-    const role = new Role({ roleUser });
-    console.log('userRole', roleUser);
-    const roleExist = await role.getRoleItem();
-    console.log('algun valor', roleExist);
-
-
-    const user = new User({
-        idUser,
-        emailUser,
-        nameUser,
-        lastnameUser,
-        imgUser,
-        roleUser,
-        statusUser,
-        googleUser
-    });
-
+    if (email === undefined) {
+        user.idUser = Number(id);
+        let [obj1] = await user.getID();
+        user.emailUser = obj1.emailUser;
+    }
+ /*
+    if (id === undefined) {
+        user.emailUser = email;
+        let [obj2] = await user.getEmail();
+        user.idUser = obj2.idUser;
+    }*/
     const result = await user.putUpDataUser();
 
     res.json({
         msg: "put API - controlador",
-        result
+        //result,
+        user
     });
 }
 const userPatchPassword = (req, res = response) => {

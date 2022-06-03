@@ -1,4 +1,4 @@
-create PROC GET_SP_SELECT_role(
+alter PROC GET_SP_SELECT_role(
 										@typeRole varchar(100) = ''
 										)
 AS

@@ -4,13 +4,27 @@ const sql = require('mssql');
 class Role {
 
     constructor(
-        objRole={
+        objRole = {
             idRole,
             typeRole
         }) {
-        this.idRole = objRole.idRole * 1;
-        this.typeRole = objRole.typeRole;
+        this._idRole = objRole.idRole * 1;
+        this._typeRole = objRole.typeRole;
     }
+
+    get idRole() {
+        return this._idRole;
+    }
+    get typeRole() {
+        return this._typeRole;
+    }
+    set idRole(newIdRole) {
+        this._idRole = newIdRole;
+    }
+    set typeRole(newTypeRole) {
+        this._typeRole = newTypeRole;
+    }
+
 
     async getRoleItem() {
         const pool = (await dbConnection());

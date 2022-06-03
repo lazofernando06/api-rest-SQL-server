@@ -1,9 +1,9 @@
 const Role = require('../models/role');
+const Google = require('../models/google');
 const Status = require('../models/status');
 const User = require('../models/user');
 
 const isIdValidateGet = async (id) => {
-    console.log(id);
     if (id != undefined) {
         if (Number(id)) {
             const idUser = parseInt(id);
@@ -18,7 +18,6 @@ const isIdValidateGet = async (id) => {
     }
 }
 const isEmailValidateGet = async (email) => {
-    console.log(email);
     /*
     String patternEmail =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -36,12 +35,11 @@ RegExp regExp = RegExp(patternEmail);
         }
     }
 }
-const isEmailValidate = async (email='') => {
-    const emailUser = email;
-    const user = new User({ emailUser });
+const isEmailValidate = async (email) => {
+    let user = new User();
+    user.emailUser = email;
     const emailExist = await user.getEmail();
-
-    if (emailExist && email != '') {
+    if (emailExist) {
         throw new Error(`El email sugerido: ${email} ya existe en la DB`);
     }
 }
@@ -54,9 +52,16 @@ const isRoleValidate = async (typeRole = '') => {
 }
 const isStatusValidate = async (nameStatus = '') => {
     const status = new Status({ nameStatus });
-    const statusExist = await status.getRoleItem();
+    const statusExist = await status.getStatusItem();
     if (!statusExist) {
         throw new Error(`El Estado: ${nameStatus} no es un parametro valido`);
+    }
+}
+const isGoogleValidate = async (statusGoogle = '') => {
+    const google = new Google({ statusGoogle });
+    const googleExist = await google.getGoogleItem();
+    if (!googleExist) {
+        throw new Error(`El Estado: ${statusGoogle} no es un parametro valido`);
     }
 }
 
@@ -76,5 +81,6 @@ module.exports = {
     isEmailValidate,
     isRoleValidate,
     isStatusValidate,
+    isGoogleValidate,
     isIdValidate,
 }
