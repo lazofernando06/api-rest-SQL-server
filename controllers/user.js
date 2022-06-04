@@ -97,11 +97,6 @@ const userDelete = async (req, res = response) => {
         if (id === undefined) {
             user.idUser = register.idUser;
         }
-        if (email === undefined) {
-            user.emailUser = register.emailUser;
-        }
-
-
         if (user.idUser) {
             result = await user.deleteUserRecord();
 
