@@ -11,7 +11,7 @@ alter PROC POST_SP_INSERT_User(
 AS
 set nocount on
 
-if not exists(select * from t_User where emailUser=@emailUser)
+if not exists(select * from t_User where emailUser=@emailUser and idStatus=1)
 begin
 
 	DECLARE		@typeRole INT,

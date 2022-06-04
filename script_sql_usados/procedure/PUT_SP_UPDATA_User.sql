@@ -11,7 +11,7 @@ alter PROC PUT_SP_UPDATA_User(
 AS
 set nocount on
 
-if exists(select * from t_User where idUser = @idUser)
+if exists(select * from t_User where idUser = @idUser and idStatus=1)
 begin
 	DECLARE		@typeRole INT,
 					 @nameStatus INT,

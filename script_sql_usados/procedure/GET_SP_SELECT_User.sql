@@ -4,7 +4,7 @@ alter PROC GET_SP_SELECT_User(
 AS
 set nocount on
 
-if exists(select * from t_User where idUser=@idUser)
+if exists(select * from t_User where idUser=@idUser and idStatus=1)
 begin
 	select idUser,nameUser,lastnameUser,emailUser,passwordUser,
 	(select r.typeRole from t_Role R where	r.idRole=u.idRole) roleUser,

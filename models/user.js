@@ -161,7 +161,16 @@ class User {
         pool.close.bind(pool);
         return result.recordset;
     }
-
+    
+    async deleteUserRecord() {
+        const pool = (await dbConnection());
+        const result = await pool
+            .request()
+            .input('idUser', sql.Int, this._idUser)
+            .query('DELETE_SP_UPDATA_RecordUser @idUser')
+        pool.close.bind(pool);
+        return result.recordset;
+    }
 }
 
 module.exports = User;

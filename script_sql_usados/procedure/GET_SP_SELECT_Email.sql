@@ -4,7 +4,7 @@ alter PROC GET_SP_SELECT_Email(
 AS
 set nocount on
 
-if exists(select * from t_User where emailUser=@emailUser)
+if exists(select * from t_User where emailUser=@emailUser and idStatus=1)
 begin
 	select idUser,nameUser,lastnameUser,emailUser,passwordUser,
 	(select r.typeRole from t_Role R where	r.idRole=u.idRole) roleUser,

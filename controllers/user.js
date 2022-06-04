@@ -85,11 +85,34 @@ const userPatchPassword = async (req, res = response) => {
         result
     });
 }
-const userDelete = async(req, res = response) => {
-    
+const userDelete = async (req, res = response) => {
+    const { id, email } = req.query;
+
+    let result = 'usuario no existe en la base';
+    let user = new User();
+    user.idUser = Number(id);
+    user.emailUser = email;
+    let [register] = await user.searchItem();
+    if (register) {
+        if (id === undefined) {
+            user.idUser = register.idUser;
+        }
+        if (email === undefined) {
+            user.emailUser = register.emailUser;
+        }
+
+
+        if (user.idUser) {
+            result = await user.deleteUserRecord();
+
+        }
+    }
+    //integridad referencial
+
+
     res.json({
         msg: "delete API - controlador",
-       // result
+        result
     });
 }
 

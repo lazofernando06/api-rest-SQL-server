@@ -5,7 +5,7 @@ CREATE PROC PATCH_SP_UPPASSWORD_User(
 AS
 set nocount on
 
-if exists(select * from t_User where idUser = @idUser)
+if exists(select * from t_User where idUser = @idUser and idStatus=1)
 begin
 
 	UPDATE t_User SET passwordUser = @newpassword
