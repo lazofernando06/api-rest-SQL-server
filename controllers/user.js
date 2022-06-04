@@ -86,7 +86,7 @@ const userPatchPassword = async (req, res = response) => {
     });
 }
 const userDelete = async(req, res = response) => {
-
+    
     res.json({
         msg: "delete API - controlador",
        // result
