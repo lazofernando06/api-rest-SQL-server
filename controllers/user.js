@@ -110,6 +110,9 @@ const userDelete = async (req, res = response) => {
         result
     });
 }
+const userGetOthers=(req, res = response) => {
+    res.sendFile(__dirname+'public/404.html');
+}
 
 module.exports = {
     userGet,
@@ -117,5 +120,6 @@ module.exports = {
     userPost,
     userPut,
     userPatchPassword,
-    userDelete
+    userDelete,
+    userGetOthers
 }

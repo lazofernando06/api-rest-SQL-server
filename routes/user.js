@@ -14,7 +14,8 @@ const { userGet,
         userPost,
         userPut,
         userPatchPassword,
-        userDelete
+        userDelete,
+        userGetOthers
 } = require('../controllers/user');
 const router = Router();
 
@@ -24,6 +25,8 @@ router.get('/item/', [
         query('email').custom(isEmailValidateGet),
         validatorField
 ], userGet_x_id);
+
+router.get('*', userGetOthers);
 
 router.post('/', [
         check('nameUser', 'El nombre es obligatorio').not().isEmpty(),
