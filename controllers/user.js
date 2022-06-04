@@ -1,10 +1,9 @@
 const { request, response } = require('express');
-const Role = require('../models/role');
 const User = require('../models/user');
 
 const userGet = async (req = request, res = response) => {
     const user = new User();
-    const result = await user.getUserList();
+    const result = await user.getTotalUserRecord();
     const total = Object.keys(result).length
     res.json({
         msg: "get API - totales",
@@ -13,12 +12,11 @@ const userGet = async (req = request, res = response) => {
     });
 }
 const userGet_x_id = async (req = request, res = response) => {
-    const { id = 0, email = '' } = req.query;
+    const { id, email } = req.query;
     let user = new User();
-    user.idUser === undefined ? user.idUser = 0 : user.idUser = Number(id);
-    user.emailUser === undefined ? user.emailUser = '' : user.emailUser = email;
-
-    const result = await user.getUserItem();
+    user.idUser = Number(id);
+    user.emailUser = email;
+    const result = await user.searchItem();
     res.json({
         msg: "get API - x item",
         result,
@@ -27,9 +25,6 @@ const userGet_x_id = async (req = request, res = response) => {
 const userPost = async (req = request, res = response) => {
     const query = req.body;
     let user = new User(query);
-    //user.roleUser === undefined ? user.roleUser = 0 : user.roleUser = Number(id);
-    //user.roleUser === undefined ? user.roleUser = 0 : user.roleUser = Number(id);
-    console.log('password', user.passwordUser);
     const newUser = await user.postInsertUser();
     res.json({
         msg: "post API",
@@ -38,46 +33,64 @@ const userPost = async (req = request, res = response) => {
 }
 const userPut = async (req = request, res = response) => {
     const { id, email } = req.query;
-    if (id != undefined && email != undefined) {
-        return console.log('sali a comer');
-    }
-    const { idUser, passwordUser, emailUser, ...query } = req.body;
-    let user = new User(query);
+    const { idUser, emailUser, ...query } = req.body;
 
-    if (email === undefined) {
-        user.idUser = Number(id);
-        let [obj1] = await user.getID();
-        user.emailUser = obj1.emailUser;
-    }
- /*
+    let user = new User(query);
+    user.idUser = Number(id);
+    user.emailUser = email;
+    let [register] = await user.searchItem();
     if (id === undefined) {
-        user.emailUser = email;
-        let [obj2] = await user.getEmail();
-        user.idUser = obj2.idUser;
-    }*/
-    const result = await user.putUpDataUser();
+        user.idUser = register.idUser;
+    }
+    if (email === undefined) {
+        user.emailUser = register.emailUser;
+    }
+
+    let result = 'contraseña invalida';
+
+    if (register.passwordUser === user.passwordUser) {
+        result = await user.putUpDataUser();
+    }
 
     res.json({
         msg: "put API - controlador",
-        //result,
-        user
+        result
     });
 }
-const userPatchPassword = (req, res = response) => {
-    res.json(
-        {
-            msg: "patch API - controlador"
-        }
-    );
+const userPatchPassword = async (req, res = response) => {
+    const { id, email } = req.query;
+    const { passwordUser } = req.body;
+
+    let user = new User(passwordUser);
+    user.idUser = Number(id);
+    user.emailUser = email;
+    user.passwordUser = passwordUser;
+    let [register] = await user.searchItem();
+    if (id === undefined) {
+        user.idUser = register.idUser;
+    }
+    if (email === undefined) {
+        user.emailUser = register.emailUser;
+    }
+
+    let result = 'No se pudo cambiar la contraseña';
+
+    if (register.passwordUser != user.passwordUser) {
+        result = await user.patchUpPasswordUser();
+
+    }
+
+    res.json({
+        msg: "patch API - controlador",
+        result
+    });
 }
-const userDelete = (req, res = response) => {
+const userDelete = async(req, res = response) => {
 
-    res.json(
-        {
-            msg: "delete API - controlador"
-        }
-
-    );
+    res.json({
+        msg: "delete API - controlador",
+       // result
+    });
 }
 
 module.exports = {

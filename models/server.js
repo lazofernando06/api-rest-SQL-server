@@ -3,43 +3,63 @@ const express = require('express');
 class Server {
 
     constructor() {
-        this.app = express();
-        this.port = process.env.PORT;
-        this.guestRouterPath = "/api/user";
+        this._app = express();
+        this._port = process.env.PORT;
+        this._userRouterPath = "/api/user";
 
-    //    this.openConnection();
-      //  this.closeConnection();
+        //    this.openConnection();
+        //  this.closeConnection();
 
         this.middlerware();
 
         this.routes();
     }
-/*
-    async openConnection() {
-        await dbConnection();
-        console.log('Conexión de base de datos abierta');
+
+    get app(){
+        return this.newApp;
     }
-    async closeConnection() {
-        const pool = await dbConnection();
-        pool.close.bind(pool);
-        console.log("Conexión de base de datos cerrada");
+    get port(){
+        return this.newPort;
     }
-*/
+    get guestRouterPath(){
+        return this.newGuestRouterPath;
+    }
+
+    set app(newApp) {
+        this._app = newApp;
+    }
+    set port(newPort) {
+        this._port = newPort;
+    }
+    set guestRouterPath(newGuestRouterPath) {
+        this._userRouterPath = newGuestRouterPath;
+    }
+    /*
+        async openConnection() {
+            await dbConnection();
+            console.log('Conexión de base de datos abierta');
+        }
+        async closeConnection() {
+            const pool = await dbConnection();
+            pool.close.bind(pool);
+            console.log("Conexión de base de datos cerrada");
+        }
+    */
 
     middlerware() {
         //cors
-        this.app.use(cors());
+        this._app.use(cors());
         //Json
-        this.app.use(express.json());
+        this._app.use(express.json());
         //public directory
-        this.app.use(express.static('public'));
+        this._app.use(express.static('public'));
     }
     routes() {
-        this.app.use(this.guestRouterPath, require('../routes/user'));
+        this._app.use(this._userRouterPath, require('../routes/user'));
     }
     listen() {
-        this.app.listen(this.port, () => {
-            console.log("El servidor esra corriendo en el puerto", this.port);
+        this._app.listen(this._port, () => {
+            console.log("El servidor esra corriendo en el puerto", this._port);
         });
     }
 }

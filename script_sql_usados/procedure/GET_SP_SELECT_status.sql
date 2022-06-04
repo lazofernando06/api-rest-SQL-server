@@ -17,5 +17,5 @@ begin
 	return
 end
 
-	-- exec GET_SP_SELECT_role 'DEV_ROLE'
+	-- exec GET_SP_SELECT_status 'ACTIVE'
 

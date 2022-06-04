@@ -8,7 +8,7 @@ const isIdValidateGet = async (id) => {
         if (Number(id)) {
             const idUser = parseInt(id);
             const user = new User({ idUser });
-            const idExist = await user.getID();
+            const idExist = await user.getRecordById();
             if (!idExist) {
                 throw new Error(`El id sugerido: ${id} no existe en la DB`);
             }
@@ -28,7 +28,7 @@ RegExp regExp = RegExp(patternEmail);
         if (true) {
             const emailUser = email;
             const user = new User({ emailUser });
-            const emailExist = await user.getEmail();
+            const emailExist = await user.getRecordByEmail();
             if (!emailExist) {
                 throw new Error(`El email sugeremailo: ${email} no existe en la DB`);
             }
@@ -38,7 +38,7 @@ RegExp regExp = RegExp(patternEmail);
 const isEmailValidate = async (email) => {
     let user = new User();
     user.emailUser = email;
-    const emailExist = await user.getEmail();
+    const emailExist = await user.getRecordByEmail();
     if (emailExist) {
         throw new Error(`El email sugerido: ${email} ya existe en la DB`);
     }
@@ -69,12 +69,15 @@ const isGoogleValidate = async (statusGoogle = '') => {
 const isIdValidate = async (id = 0) => {
     const idUser = parseInt(id);
     const user = new User({ idUser });
-    const idExist = await user.getID();
+    const idExist = await user.getRecordById();
 
     if (!idExist && id != 0) {
         throw new Error(`El id sugerido: ${id} no existe en la DB`);
     }
 }
+
+
+
 module.exports = {
     isIdValidateGet,
     isEmailValidateGet,

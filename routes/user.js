@@ -38,14 +38,16 @@ router.post('/', [
 ], userPost);
 
 router.put('/item/', [
-        query('id').custom(isIdValidate),
-     //   query('email').custom(isEmailValidate),
+        //  query('id').custom(isIdValidate),
+        //   query('email').custom(isEmailValidate),
         check('nameUser', 'El campo es obligatorio').not().isEmpty(),
         check('lastnameUser', 'El campo es obligatorio').not().isEmpty(),
-        //check('roleUser').custom(isRoleValidate),
+        check('roleUser').custom(isRoleValidate),
+        check('statusUser').custom(isStatusValidate),
+        check('googleUser').custom(isGoogleValidate),
         validatorField
 ], userPut);
 router.patch('/item/password/', userPatchPassword);
-router.delete('/', userDelete);
+router.delete('/item/', userDelete);
 
 module.exports = router;

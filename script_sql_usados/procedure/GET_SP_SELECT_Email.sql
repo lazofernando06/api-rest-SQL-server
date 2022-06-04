@@ -10,7 +10,7 @@ begin
 	(select r.typeRole from t_Role R where	r.idRole=u.idRole) roleUser,
 	(select s.nameStatus from t_Status S where s.idStatus=u.idStatus) statusUser,
 	(select g.statusGoogle from t_Google G where g.idGoogle=u.idGoogle) googleUser
-	from t_User U
+	from t_User U	
 	WHERE emailUser = @emailUser
 end
 else
@@ -20,4 +20,4 @@ begin
 	return
 end
 
-	-- exec GET_SP_SELECT_Email 'uno@uno.com'
+	-- exec GET_SP_SELECT_Email 'dos@dos.com'

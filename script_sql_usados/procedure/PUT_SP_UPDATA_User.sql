@@ -2,6 +2,7 @@ alter PROC PUT_SP_UPDATA_User(
 										@idUser int ,
 										@nameUser varchar(50),
 										@lastmaneUser varchar(50),
+										@passwordUser varchar(50),
 										@imgUser varchar(80),
 										@roleUser varchar(80),
 										@statusUser varchar(80),
@@ -23,6 +24,7 @@ begin
 
 	UPDATE t_User SET nameUser =@nameUser,
 										lastnameUser=@lastmaneUser,
+										passwordUser=@passwordUser,
 										imgUser=@imgUser,
 										idRole=@typeRole,
 										idStatus=@nameStatus,
@@ -36,7 +38,7 @@ begin
 	print @statusGoogle
 end
 
---exec PUT_SP_UPDATA_User 25,'namePrueba7','lastnamePrueba7','esds','USER_ROLE','ACTIVE','NO ENABLE'
+--exec PUT_SP_UPDATA_User 25,'namePrueba7','lastnamePrueba7','111111111','esds','USER_ROLE','ACTIVE','NO ENABLE'
 
 /*
 	 SELECT * FROM t_Role
