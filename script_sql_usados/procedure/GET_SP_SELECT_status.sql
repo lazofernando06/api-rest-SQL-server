@@ -6,7 +6,7 @@ set nocount on
 
 if exists(select * from t_Status where nameStatus = @nameStatus)
 begin
-	select *	from t_Status
+	select idStatus as 'id',nameStatus as 'status'	from t_Status
 	WHERE nameStatus = @nameStatus
 
 end

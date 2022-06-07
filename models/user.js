@@ -4,25 +4,25 @@ const sql = require('mssql');
 class User {
     constructor(
         objUser = {
-            idUser: 0,
-            nameUser: '',
-            lastnameUser: '',
-            emailUser: '',
-            passwordUser: '',
-            imgUser: '',
-            roleUser: '',
-            statusUser: '',
-            googleUser: '',
+            id: 0,
+            name: '',
+            lastname: '',
+            email: '',
+            password: '',
+            img: '',
+            role: '',
+            status: '',
+            google: '',
         }) {
-        this._idUser = objUser.idUser;
-        this._nameUser = objUser.nameUser;
-        this._lastnameUser = objUser.lastnameUser;
-        this._emailUser = objUser.emailUser;
-        this._passwordUser = objUser.passwordUser;
-        this._imgUser = objUser.imgUser;
-        this._roleUser = objUser.roleUser;
-        this._statusUser = objUser.statusUser;
-        this._googleUser = objUser.googleUser;
+        this._idUser = objUser.id;
+        this._nameUser = objUser.name;
+        this._lastnameUser = objUser.lastname;
+        this._emailUser = objUser.email;
+        this._passwordUser = objUser.password;
+        this._imgUser = objUser.img==undefined?'':objUser.img;
+        this._roleUser = objUser.role;
+        this._statusUser = objUser.status;
+        this._googleUser = objUser.google;
     }
 
     get idUser() {
@@ -87,7 +87,7 @@ class User {
             .request()
             .query('GET_SP_SELECT_UserRecord')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset?result.recordset:null;
     }
     async getRecordById() {
         const pool = (await dbConnection());
@@ -96,7 +96,7 @@ class User {
             .input('idUser', sql.Int, this._idUser)
             .query('GET_SP_SELECT_User @idUser')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset?result.recordset:null;
     }
     async getRecordByEmail() {
         const pool = (await dbConnection());
@@ -105,7 +105,7 @@ class User {
             .input('emailUser', sql.VarChar(100), this._emailUser)
             .query('GET_SP_SELECT_Email @emailUser')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset?result.recordset:null;
     }
 
     async searchItem() {
@@ -115,6 +115,7 @@ class User {
         if (this._emailUser) {
             return this.getRecordByEmail();
         }
+        return null;    
     }
 
     async postInsertUser() {

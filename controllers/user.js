@@ -25,6 +25,7 @@ const userGet_x_id = async (req = request, res = response) => {
 const userPost = async (req = request, res = response) => {
     const query = req.body;
     let user = new User(query);
+    user.img = user.img === undefined ? '' : user.img;
     const newUser = await user.postInsertUser();
     res.json({
         msg: "post API",
@@ -32,23 +33,22 @@ const userPost = async (req = request, res = response) => {
     });
 }
 const userPut = async (req = request, res = response) => {
-    const { id, email } = req.query;
-    const { idUser, emailUser, ...query } = req.body;
-
+    const { id, email, ...query } = req.body;
     let user = new User(query);
-    user.idUser = Number(id);
-    user.emailUser = email;
+    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
+    user.emailUser = req.query.email;
+
     let [register] = await user.searchItem();
-    if (id === undefined) {
-        user.idUser = register.idUser;
+
+    if (req.query.id === undefined) {
+        user.idUser = register.id;
     }
-    if (email === undefined) {
-        user.emailUser = register.emailUser;
+    if (req.query.email === undefined) {
+        user.emailUser = register.email;
     }
 
     let result = 'contraseña invalida';
-
-    if (register.passwordUser === user.passwordUser) {
+    if (register.password === user.passwordUser) {
         result = await user.putUpDataUser();
     }
 
@@ -59,25 +59,24 @@ const userPut = async (req = request, res = response) => {
 }
 const userPatchPassword = async (req, res = response) => {
     const { id, email } = req.query;
-    const { passwordUser } = req.body;
+    const { password } = req.body;
 
-    let user = new User(passwordUser);
-    user.idUser = Number(id);
+    let user = new User();
+    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
     user.emailUser = email;
-    user.passwordUser = passwordUser;
+    user.passwordUser = password;
     let [register] = await user.searchItem();
     if (id === undefined) {
-        user.idUser = register.idUser;
+        user.idUser = register.id;
     }
     if (email === undefined) {
-        user.emailUser = register.emailUser;
+        user.emailUser = register.email;
     }
 
     let result = 'No se pudo cambiar la contraseña';
 
-    if (register.passwordUser != user.passwordUser) {
+    if (register.password != user.passwordUser) {
         result = await user.patchUpPasswordUser();
-
     }
 
     res.json({
@@ -110,8 +109,8 @@ const userDelete = async (req, res = response) => {
         result
     });
 }
-const userGetOthers=(req, res = response) => {
-    res.sendFile(__dirname+'public/404.html');
+const userGetOthers = (req, res = response) => {
+    res.sendFile(__dirname + 'public/404.html');
 }
 
 module.exports = {

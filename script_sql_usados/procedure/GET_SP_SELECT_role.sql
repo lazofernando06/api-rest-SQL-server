@@ -6,7 +6,7 @@ set nocount on
 
 if exists(select * from t_Role where typeRole = @typeRole)
 begin
-	select *	from t_Role
+	select idRole as 'id',typeRole as 'Role' 	from t_Role
 	WHERE typeRole = @typeRole
 
 end

@@ -6,7 +6,7 @@ set nocount on
 
 if exists(select * from t_Google where statusGoogle = @statusGoogle)
 begin
-	select *	from t_Google
+	select idGoogle as 'id',statusGoogle as 'google' 	from t_Google
 	WHERE statusGoogle = @statusGoogle
 
 end
@@ -17,5 +17,5 @@ begin
 	return
 end
 
-	-- exec GET_SP_SELECT_role 'DEV_ROLE'
+	-- exec GET_SP_SELECT_google 'ENABLE'
 

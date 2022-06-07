@@ -6,8 +6,8 @@ const User = require('../models/user');
 const isIdValidateGet = async (id) => {
     if (id != undefined) {
         if (Number(id)) {
-            const idUser = parseInt(id);
-            const user = new User({ idUser });
+            let user = new User();
+            user.idUser = parseInt(id);
             const idExist = await user.getRecordById();
             if (!idExist) {
                 throw new Error(`El id sugerido: ${id} no existe en la DB`);
@@ -26,8 +26,8 @@ RegExp regExp = RegExp(patternEmail);
 */
     if (email != undefined) {
         if (true) {
-            const emailUser = email;
-            const user = new User({ emailUser });
+            let user= new User();
+            user.emailUser = email;
             const emailExist = await user.getRecordByEmail();
             if (!emailExist) {
                 throw new Error(`El email sugeremailo: ${email} no existe en la DB`);
@@ -66,15 +66,6 @@ const isGoogleValidate = async (statusGoogle = '') => {
 }
 
 
-const isIdValidate = async (id = 0) => {
-    const idUser = parseInt(id);
-    const user = new User({ idUser });
-    const idExist = await user.getRecordById();
-
-    if (!idExist && id != 0) {
-        throw new Error(`El id sugerido: ${id} no existe en la DB`);
-    }
-}
 
 
 
@@ -85,5 +76,4 @@ module.exports = {
     isRoleValidate,
     isStatusValidate,
     isGoogleValidate,
-    isIdValidate,
 }

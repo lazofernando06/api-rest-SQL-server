@@ -6,9 +6,10 @@ set nocount on
 
 if exists(select * from t_User where idUser=@idUser and idStatus=1)
 begin
+	exec GET_SP_SELECT_User @idUser
 	UPDATE t_User SET idStatus =2
 	WHERE idUser = @idUser
-	select * from t_User where idUser=@idUser
+	
 end
 else
 begin

@@ -4,7 +4,6 @@ const { validatorField } = require('../middlewares/validatorField');
 const { isEmailValidate,
         isIdValidateGet,
         isEmailValidateGet,
-        isIdValidate,
         isRoleValidate,
         isStatusValidate,
         isGoogleValidate } = require('../helpers/db-validator');
@@ -29,25 +28,25 @@ router.get('/item/', [
 router.get('*', userGetOthers);
 
 router.post('/', [
-        check('nameUser', 'El nombre es obligatorio').not().isEmpty(),
-        check('lastnameUser', 'El apellido es obligatorio').not().isEmpty(),
-        check('passwordUser', 'La contraseña no debe ser menor a 6 caracteres').isLength({ min: 6 }),
-        check('emailUser').custom(isEmailValidate),
-        check('emailUser', 'Correo ingresado no valido').isEmail(),
-        check('roleUser').custom(isRoleValidate),
-        check('statusUser').custom(isStatusValidate),
-        check('googleUser').custom(isGoogleValidate),
+        check('name', 'El nombre es obligatorio').not().isEmpty(),
+        check('lastname', 'El apellido es obligatorio').not().isEmpty(),
+        check('password', 'La contraseña no debe ser menor a 6 caracteres').isLength({ min: 6 }),
+        check('email').custom(isEmailValidate),
+        check('email', 'Correo ingresado no valido').isEmail(),
+        check('role').custom(isRoleValidate),
+        check('status').custom(isStatusValidate),
+        check('google').custom(isGoogleValidate),
         validatorField
 ], userPost);
 
 router.put('/item/', [
         //  query('id').custom(isIdValidate),
         //   query('email').custom(isEmailValidate),
-        check('nameUser', 'El campo es obligatorio').not().isEmpty(),
-        check('lastnameUser', 'El campo es obligatorio').not().isEmpty(),
-        check('roleUser').custom(isRoleValidate),
-        check('statusUser').custom(isStatusValidate),
-        check('googleUser').custom(isGoogleValidate),
+        check('name', 'El campo es obligatorio').not().isEmpty(),
+        check('lastname', 'El campo es obligatorio').not().isEmpty(),
+        check('role').custom(isRoleValidate),
+        check('status').custom(isStatusValidate),
+        check('google').custom(isGoogleValidate),
         validatorField
 ], userPut);
 router.patch('/item/password/', userPatchPassword);

@@ -5,6 +5,7 @@ class Server {
     constructor() {
         this._app = express();
         this._port = process.env.PORT;
+        this._authPath = "/api/auth";
         this._userRouterPath = "/api/user";
 
         //    this.openConnection();
@@ -16,13 +17,16 @@ class Server {
     }
 
     get app(){
-        return this.newApp;
+        return this._newApp;
     }
     get port(){
-        return this.newPort;
+        return this._newPort;
     }
-    get guestRouterPath(){
-        return this.newGuestRouterPath;
+    get authPath(){
+        return this._authPath;
+    }
+    get userRouterPath(){
+        return this._userRouterPath;
     }
 
     set app(newApp) {
@@ -31,21 +35,12 @@ class Server {
     set port(newPort) {
         this._port = newPort;
     }
-    set guestRouterPath(newGuestRouterPath) {
-        this._userRouterPath = newGuestRouterPath;
+    set authPath(newAuthPath) {
+        this._authPath = newAuthPath;
     }
-    /*
-        async openConnection() {
-            await dbConnection();
-            console.log('Conexión de base de datos abierta');
-        }
-        async closeConnection() {
-            const pool = await dbConnection();
-            pool.close.bind(pool);
-            console.log("Conexión de base de datos cerrada");
-        }
-    */
-
+    set userRouterPath(newUserRouterPath) {
+        this._userRouterPath = newUserRouterPath;
+    }
     middlerware() {
         //cors
         this._app.use(cors());
@@ -55,6 +50,7 @@ class Server {
         this._app.use(express.static('public'));
     }
     routes() {
+        this._app.use(this._authPath, require('../routes/auth'));
         this._app.use(this._userRouterPath, require('../routes/user'));
     }
     listen() {
