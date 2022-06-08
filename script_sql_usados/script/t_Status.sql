@@ -1,4 +1,4 @@
-use UserRecord
+use TimetoTravelApp_User
 CREATE TABLE t_Status(
 	idStatus int	IDENTITY (1,1) NOT NULL,
 	nameStatus varchar(50)NOT NULL,

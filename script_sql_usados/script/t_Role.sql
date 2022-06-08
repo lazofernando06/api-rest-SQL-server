@@ -1,4 +1,4 @@
-use UserRecord
+use TimetoTravelApp_User
 CREATE TABLE t_Role(
 	idRole int	IDENTITY (1,1) NOT NULL,
 	typeRole varchar(50) NOT NULL,

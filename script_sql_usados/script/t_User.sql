@@ -1,4 +1,4 @@
-use UserRecord
+use TimetoTravelApp_User
 CREATE TABLE t_User(
 	idUser int	IDENTITY (1,1) NOT NULL,
 	nameUser varchar(50) NOT NULL,
@@ -11,3 +11,6 @@ CREATE TABLE t_User(
 	idGoogle int NOT NULL,
 	CONSTRAINT PK_idUser PRIMARY KEY (idUser)
 )
+
+-- create database TimetoTravelApp_User
+-- use TimetoTravelApp_User

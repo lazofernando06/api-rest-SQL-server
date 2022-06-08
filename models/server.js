@@ -5,9 +5,11 @@ class Server {
     constructor() {
         this._app = express();
         this._port = process.env.PORT;
-        this._authPath = "/api/auth";
-        this._userRouterPath = "/api/user";
-
+        this._path={
+            auth:"/api/auth",
+            category:"/api/category",
+            user:"/api/user",
+        }
         //    this.openConnection();
         //  this.closeConnection();
 
@@ -23,10 +25,13 @@ class Server {
         return this._newPort;
     }
     get authPath(){
-        return this._authPath;
+        return this._path.auth;
+    }
+    get categoryRouterPath(){
+        return this._path.category;
     }
     get userRouterPath(){
-        return this._userRouterPath;
+        return this._path.user;
     }
 
     set app(newApp) {
@@ -36,10 +41,13 @@ class Server {
         this._port = newPort;
     }
     set authPath(newAuthPath) {
-        this._authPath = newAuthPath;
+        this._path.auth = newAuthPath;
+    }
+    set categoryRouterPath(newCategoryRouterPath) {
+        this._path.category = newCategoryRouterPath;
     }
     set userRouterPath(newUserRouterPath) {
-        this._userRouterPath = newUserRouterPath;
+        this._path.user = newUserRouterPath;
     }
     middlerware() {
         //cors
@@ -50,8 +58,9 @@ class Server {
         this._app.use(express.static('public'));
     }
     routes() {
-        this._app.use(this._authPath, require('../routes/auth'));
-        this._app.use(this._userRouterPath, require('../routes/user'));
+        this._app.use(this._path.auth, require('../routes/auth'));
+        this._app.use(this._path.category, require('../routes/category'));
+        this._app.use(this._path.user, require('../routes/user'));
     }
     listen() {
         this._app.listen(this._port, () => {

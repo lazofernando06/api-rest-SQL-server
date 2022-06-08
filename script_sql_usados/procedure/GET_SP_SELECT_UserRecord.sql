@@ -1,4 +1,4 @@
-ALTER PROC GET_SP_SELECT_UserRecord
+alter PROC GET_SP_SELECT_UserRecord
 
 AS
 set nocount on
@@ -16,3 +16,7 @@ begin
 end
 
 -- exec GET_SP_SELECT_UserRecord
+-- select * from t_Role 
+-- select * from t_Status 
+-- select * from t_Google 
+-- select * from t_User 
