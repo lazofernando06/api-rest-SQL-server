@@ -40,6 +40,11 @@ const userPut = async (req = request, res = response) => {
 
     let [register] = await user.searchItem();
 
+    if (req.query.id == undefined && req.query.email == undefined) {
+        return res.status(500).json({
+            msg: 'Ingrese un usuario / emailvalido'
+        });
+    }
     if (req.query.id === undefined) {
         user.idUser = register.id;
     }
@@ -47,10 +52,7 @@ const userPut = async (req = request, res = response) => {
         user.emailUser = register.email;
     }
 
-    let result = 'contraseña invalida';
-    if (register.password === user.passwordUser) {
-        result = await user.putUpDataUser();
-    }
+    let result = await user.putUpDataUser();
 
     res.json({
         msg: "put API - controlador",
@@ -85,24 +87,20 @@ const userPatchPassword = async (req, res = response) => {
     });
 }
 const userDelete = async (req, res = response) => {
-    const { id, email } = req.query;
-
     let result = 'usuario no existe en la base';
     let user = new User();
-    user.idUser = Number(id);
-    user.emailUser = email;
-    let [register] = await user.searchItem();
-    if (register) {
-        if (id === undefined) {
-            user.idUser = register.idUser;
+    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
+    user.emailUser = req.query.email;
+    let register = await user.searchItem();
+    if (register != null) {
+        if (req.query.id === undefined) {
+            user.idUser = register.id;
         }
         if (user.idUser) {
             result = await user.deleteUserRecord();
-
         }
     }
     //integridad referencial
-
 
     res.json({
         msg: "delete API - controlador",

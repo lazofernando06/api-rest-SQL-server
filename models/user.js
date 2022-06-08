@@ -19,7 +19,7 @@ class User {
         this._lastnameUser = objUser.lastname;
         this._emailUser = objUser.email;
         this._passwordUser = objUser.password;
-        this._imgUser = objUser.img==undefined?'':objUser.img;
+        this._imgUser = objUser.img == undefined ? '' : objUser.img;
         this._roleUser = objUser.role;
         this._statusUser = objUser.status;
         this._googleUser = objUser.google;
@@ -87,7 +87,7 @@ class User {
             .request()
             .query('GET_SP_SELECT_UserRecord')
         pool.close.bind(pool);
-        return result.recordset?result.recordset:null;
+        return result.recordset ? result.recordset : null;
     }
     async getRecordById() {
         const pool = (await dbConnection());
@@ -96,7 +96,7 @@ class User {
             .input('idUser', sql.Int, this._idUser)
             .query('GET_SP_SELECT_User @idUser')
         pool.close.bind(pool);
-        return result.recordset?result.recordset:null;
+        return result.recordset ? result.recordset : null;
     }
     async getRecordByEmail() {
         const pool = (await dbConnection());
@@ -105,7 +105,7 @@ class User {
             .input('emailUser', sql.VarChar(100), this._emailUser)
             .query('GET_SP_SELECT_Email @emailUser')
         pool.close.bind(pool);
-        return result.recordset?result.recordset:null;
+        return result.recordset ? result.recordset : null;
     }
 
     async searchItem() {
@@ -115,7 +115,7 @@ class User {
         if (this._emailUser) {
             return this.getRecordByEmail();
         }
-        return null;    
+        return null;
     }
 
     async postInsertUser() {
@@ -162,7 +162,7 @@ class User {
         pool.close.bind(pool);
         return result.recordset;
     }
-    
+
     async deleteUserRecord() {
         const pool = (await dbConnection());
         const result = await pool

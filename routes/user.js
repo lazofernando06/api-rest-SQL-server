@@ -1,6 +1,19 @@
 const { Router } = require('express');
 const { check, query } = require('express-validator');
+/*
 const { validatorField } = require('../middlewares/validatorField');
+const { validateJWT } = require('../middlewares/validate-jwt');
+const { isAdminRole,isRole,alsoUser } = require('../middlewares/validate-role');
+*/
+
+const  {
+        validatorField,
+        validateJWT,
+        isAdminRole,
+        isRole,
+        alsoUser
+}=require('../middlewares');
+
 const { isEmailValidate,
         isIdValidateGet,
         isEmailValidateGet,
@@ -16,10 +29,17 @@ const { userGet,
         userDelete,
         userGetOthers
 } = require('../controllers/user');
-const router = Router();
 
-router.get('/', userGet);
+const router = Router('ADMIN_ROLE');
+
+router.get('/', [
+        validateJWT,
+        isRole('ADMIN_ROLE','DEV_ROLE'),
+        validatorField
+], userGet);
 router.get('/item/', [
+        validateJWT,
+        isRole('ADMIN_ROLE','DEV_ROLE'),
         check('id').custom(isIdValidateGet),
         query('email').custom(isEmailValidateGet),
         validatorField
@@ -28,6 +48,8 @@ router.get('/item/', [
 router.get('*', userGetOthers);
 
 router.post('/', [
+        validateJWT,
+        isAdminRole,
         check('name', 'El nombre es obligatorio').not().isEmpty(),
         check('lastname', 'El apellido es obligatorio').not().isEmpty(),
         check('password', 'La contraseña no debe ser menor a 6 caracteres').isLength({ min: 6 }),
@@ -40,6 +62,8 @@ router.post('/', [
 ], userPost);
 
 router.put('/item/', [
+        validateJWT,
+        alsoUser,
         //  query('id').custom(isIdValidate),
         //   query('email').custom(isEmailValidate),
         check('name', 'El campo es obligatorio').not().isEmpty(),
@@ -50,6 +74,10 @@ router.put('/item/', [
         validatorField
 ], userPut);
 router.patch('/item/password/', userPatchPassword);
-router.delete('/item/', userDelete);
+router.delete('/item/', [
+        validateJWT,
+        isAdminRole,
+        validatorField
+], userDelete);
 
 module.exports = router;

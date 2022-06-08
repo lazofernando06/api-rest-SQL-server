@@ -29,9 +29,10 @@ const postLogin = async (req, res = response) => {
         if (register.password != user.passwordUser) {
             return res.status(400).json({
                 msg: 'Email / Password no son correctos'
-            }); 
+            });
         }
-        const token= await generateJWT(user.idUser);
+        const token = await generateJWT(user.idUser);
+        console.log(token);
         res.json({
             msg: 'Logion ok',
             token
