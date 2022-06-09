@@ -1,25 +1,17 @@
 const sql = require('mssql');
-
+const production = true;
 const config = {
-/*  
-    user: 'sqlserver',
-    password: 'certus123456',
-    database: 'TimetoTravelApp_User',
-    server: '35.224.234.43',
-*/
-  
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME1,
-    server: 'localhost',
 
+    user: production == true ? process.env.DB_USER : process.env.DB_USER_DEV,
+    password: production == true ? process.env.DB_PWD : process.env.DB_PWD_DEV,
+    database: production == true ? process.env.DB_NAME : process.env.DB_NAME_DEV,
+    server: production == true ? '35.224.234.43' : 'localhost',
 
     options: {
-        encrypt: true, // for azure
         trustServerCertificate: true, // change to true for local dev / self-signed certs
-        trustedconnection:false,
-        enableArithAbort: true,
-        encrypt:false
+        //trustedconnection: false,
+        //enableArithAbort: true,
+        encrypt: false
     }
 
 }
