@@ -1,4 +1,4 @@
-CREATE PROC PATCH_SP_UPPASSWORD_User(
+alter PROC PATCH_SP_UPPASSWORD_User(
 										@idUser int ,
 										@newpassword varchar(80)
 									)

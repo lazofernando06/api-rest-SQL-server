@@ -6,13 +6,16 @@ const { validateJWT } = require('../middlewares/validate-jwt');
 const { isAdminRole,isRole,alsoUser } = require('../middlewares/validate-role');
 */
 
-const  {
+const {
         validatorField,
+        validatorEmailBody,
+        validatorFieldQuery,
+        validatorEmailHeader,
         validateJWT,
         isAdminRole,
         isRole,
         alsoUser
-}=require('../middlewares');
+} = require('../middlewares');
 
 const { isEmailValidate,
         isIdValidateGet,
@@ -30,38 +33,47 @@ const { userGet,
         userGetOthers
 } = require('../controllers/user');
 
-const router = Router('ADMIN_ROLE');
+const router = Router();
 
-router.get('/', [
-        validateJWT,
-        isRole('ADMIN_ROLE','DEV_ROLE'),
-        validatorField
-], userGet);
-router.get('/item/', [
-        validateJWT,
-        isRole('ADMIN_ROLE','DEV_ROLE'),
-        check('id').custom(isIdValidateGet),
-        query('email').custom(isEmailValidateGet),
-        validatorField
-], userGet_x_id);
+router.get('/',
+        /*
+        [
+                validateJWT,
+                isRole('ADMIN_ROLE','DEV_ROLE'),
+                validatorField
+        ], 
+        */
+        userGet);
 
-router.get('*', userGetOthers);
+router.get('/:id',
+        /*
+        [
+                validateJWT,
+                isRole('ADMIN_ROLE','DEV_ROLE'),
+                validatorField
+        ], 
+        */
+        userGet_x_id);
+
 
 router.post('/', [
+        validatorEmailBody,
+        check('name', 'Todos los campos son obligatorios').not().isEmpty(),
+        check('lastname', 'Todos los campos son obligatorios').not().isEmpty(),
+        check('password', 'La contraseña no debe ser menor a 6 caracteres').isLength({ min: 6 }),
+        check('email', 'Correo ingresado no valido').isEmail(),
+        /*
         validateJWT,
         isAdminRole,
-        check('name', 'El nombre es obligatorio').not().isEmpty(),
-        check('lastname', 'El apellido es obligatorio').not().isEmpty(),
-        check('password', 'La contraseña no debe ser menor a 6 caracteres').isLength({ min: 6 }),
-        check('email').custom(isEmailValidate),
-        check('email', 'Correo ingresado no valido').isEmail(),
+        */
         check('role').custom(isRoleValidate),
         check('status').custom(isStatusValidate),
-        check('google').custom(isGoogleValidate),
         validatorField
 ], userPost);
 
-router.put('/item/', [
+router.put('/:id', [
+        validatorEmailHeader,
+        /*
         validateJWT,
         alsoUser,
         //  query('id').custom(isIdValidate),
@@ -71,8 +83,9 @@ router.put('/item/', [
         check('role').custom(isRoleValidate),
         check('status').custom(isStatusValidate),
         check('google').custom(isGoogleValidate),
-        validatorField
-], userPut);
+        */
+       validatorField
+],userPut);
 router.patch('/item/password/', userPatchPassword);
 router.delete('/item/', [
         validateJWT,

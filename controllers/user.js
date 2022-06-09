@@ -1,63 +1,89 @@
+"use strict"
+
 const { request, response } = require('express');
 const User = require('../models/user');
 
 const userGet = async (req = request, res = response) => {
-    const user = new User();
-    const result = await user.getTotalUserRecord();
-    const total = Object.keys(result).length
-    res.json({
-        msg: "get API - totales",
-        total,
-        result
-    });
+    let user = new User();
+
+    if (req.query.id == undefined && req.query.email == undefined) {
+        let result = await user.getTotalUserRecord();
+        const total = result.length;
+        res.json({
+            msg: "get API - totales",
+            total,
+            result
+        });
+    }
+
 }
 const userGet_x_id = async (req = request, res = response) => {
-    const { id, email } = req.query;
     let user = new User();
-    user.idUser = Number(id);
-    user.emailUser = email;
-    const result = await user.searchItem();
+    let result = null;
+    let item = '';
+    if (Number(req.params.id)) {
+        user.idUser = Number(req.params.id);
+        item = 'id';
+        result = await user.getRecordById();
+
+    } else {
+        user.emailUser = req.params.id;
+        item = 'email';
+        result = await user.getRecordByEmail();
+    }
+    console.log(user.idUser, 'id');
+    if (result === null) {
+        return res.json({
+            msg: `El parametro sugerido: ${req.params.id} no existe en la DB`
+        });
+    }
+
     res.json({
-        msg: "get API - x item",
-        result,
+        msg: `get API x ${item} `,
+        result
     });
+
 }
 const userPost = async (req = request, res = response) => {
     const query = req.body;
     let user = new User(query);
-    user.img = user.img === undefined ? '' : user.img;
-    const newUser = await user.postInsertUser();
+    const result = await user.postInsertUser();
     res.json({
         msg: "post API",
-        newUser
+        result
     });
 }
 const userPut = async (req = request, res = response) => {
-    const { id, email, ...query } = req.body;
+    const query = req.body;
     let user = new User(query);
-    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
-    user.emailUser = req.query.email;
 
-    let [register] = await user.searchItem();
+    let result = null
+    let item = '';
+    if (Number(req.params.id)) {
+        user.idUser = Number(req.params.id);
+        item = 'id';
+        result = await user.getRecordById();
 
-    if (req.query.id == undefined && req.query.email == undefined) {
-        return res.status(500).json({
-            msg: 'Ingrese un usuario / emailvalido'
+    } else {
+        user.emailUser = req.params.id;
+        item = 'email';
+        result = await user.getRecordByEmail();
+    }
+
+
+    if (result === null) {
+        return res.json({
+            msg: `El parametro sugerido: ${req.params.id} no existe en la DB`
         });
     }
-    if (req.query.id === undefined) {
-        user.idUser = register.id;
-    }
-    if (req.query.email === undefined) {
-        user.emailUser = register.email;
-    }
-
-    let result = await user.putUpDataUser();
-
+    user.idUser = result.id;
+    result = await user.putUpDataUser();
     res.json({
-        msg: "put API - controlador",
+        msg: `put API x ${item} `,
         result
     });
+
+
 }
 const userPatchPassword = async (req, res = response) => {
     const { id, email } = req.query;
@@ -87,6 +113,7 @@ const userPatchPassword = async (req, res = response) => {
     });
 }
 const userDelete = async (req, res = response) => {
+    /*
     let result = 'usuario no existe en la base';
     let user = new User();
     user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
@@ -106,11 +133,13 @@ const userDelete = async (req, res = response) => {
         msg: "delete API - controlador",
         result
     });
+    */
 }
+/*
 const userGetOthers = (req, res = response) => {
     res.sendFile(__dirname + 'public/404.html');
 }
-
+*/
 module.exports = {
     userGet,
     userGet_x_id,
@@ -118,5 +147,4 @@ module.exports = {
     userPut,
     userPatchPassword,
     userDelete,
-    userGetOthers
 }

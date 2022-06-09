@@ -14,17 +14,17 @@ class User {
             status: '',
             google: '',
         }) {
-        this._idUser = objUser.id;
+        this._idUser = objUser.id == undefined ? 0 : objUser.id;
         this._nameUser = objUser.name;
         this._lastnameUser = objUser.lastname;
         this._emailUser = objUser.email;
         this._passwordUser = objUser.password;
-        this._imgUser = objUser.img == undefined ? '' : objUser.img;
-        this._roleUser = objUser.role;
-        this._statusUser = objUser.status;
-        this._googleUser = objUser.google;
+        this._imgUser = objUser.img == undefined ? '/img/default/' : objUser.img;
+        this._roleUser = objUser.role == undefined ? 'USER_ROLE' : objUser.role;
+        this._statusUser = objUser.status == undefined ? 'ACTIVE' : objUser.status;
+        this._googleUser = objUser.google == undefined ? 'NO ENABLE' : objUser.google;
     }
-
+    ACTIVE
     get idUser() {
         return this._idUser;
     }
@@ -82,30 +82,45 @@ class User {
     }
 
     async getTotalUserRecord() {
-        const pool = (await dbConnection());
-        const result = await pool
-            .request()
-            .query('GET_SP_SELECT_UserRecord')
-        pool.close.bind(pool);
-        return result.recordset ? result.recordset : null;
+        try {
+            const pool = (await dbConnection());
+            const result = await pool
+                .request()
+                .query('GET_SP_SELECT_UserRecord')
+            pool.close.bind(pool);
+            return result.recordset ? result.recordset : null;
+        } catch (err) {
+            console.log(err);
+        }
     }
     async getRecordById() {
-        const pool = (await dbConnection());
-        const result = await pool
-            .request()
-            .input('idUser', sql.Int, this._idUser)
-            .query('GET_SP_SELECT_User @idUser')
-        pool.close.bind(pool);
-        return result.recordset ? result.recordset : null;
+
+        try {
+            const pool = (await dbConnection());
+            const result = await pool
+                .request()
+                .input('idUser', sql.Int, this._idUser)
+                .query('GET_SP_SELECT_User @idUser')
+            pool.close.bind(pool);
+            return result.recordset ? result.recordset[0] : null;
+        } catch (err) {
+            console.log(err);
+        }
+
     }
     async getRecordByEmail() {
-        const pool = (await dbConnection());
-        const result = await pool
-            .request()
-            .input('emailUser', sql.VarChar(100), this._emailUser)
-            .query('GET_SP_SELECT_Email @emailUser')
-        pool.close.bind(pool);
-        return result.recordset ? result.recordset : null;
+        try {
+            const pool = (await dbConnection());
+            const result = await pool
+                .request()
+                .input('emailUser', sql.VarChar(100), this._emailUser)
+                .query('GET_SP_SELECT_Email @emailUser')
+            pool.close.bind(pool);
+            return result.recordset ? result.recordset[0] : null;
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     async searchItem() {
@@ -119,24 +134,28 @@ class User {
     }
 
     async postInsertUser() {
-        const pool = (await dbConnection());
-        const result = await pool
-            .request()
-            .input('nameUser', sql.VarChar(50), this._nameUser)
-            .input('lastnameUser', sql.VarChar(50), this._lastnameUser)
-            .input('emailUser', sql.VarChar(50), this._emailUser)
-            .input('password', sql.VarChar(50), this._passwordUser)
-            .input('imgUser', sql.VarChar(100), this._imgUser)
-            .input('roleUser', sql.VarChar(100), this._roleUser)
-            .input('statusUser', sql.VarChar(100), this._statusUser)
-            .input('googleUser', sql.VarChar(100), this._googleUser)
-            .query('POST_SP_INSERT_User @nameUser,@lastnameUser,@emailUser,@password,@imgUser,@roleUser,@statusUser,@googleUser')
-        pool.close.bind(pool);
-        return result.recordset;
+        try {
+            const pool = (await dbConnection());
+            const result = await pool
+                .request()
+                .input('nameUser', sql.VarChar(50), this._nameUser)
+                .input('lastnameUser', sql.VarChar(50), this._lastnameUser)
+                .input('emailUser', sql.VarChar(50), this._emailUser)
+                .input('password', sql.VarChar(50), this._passwordUser)
+                .input('imgUser', sql.VarChar(100), this._imgUser)
+                .input('roleUser', sql.VarChar(100), this._roleUser)
+                .input('statusUser', sql.VarChar(100), this._statusUser)
+                .input('googleUser', sql.VarChar(100), this._googleUser)
+                .query('POST_SP_INSERT_User @nameUser,@lastnameUser,@emailUser,@password,@imgUser,@roleUser,@statusUser,@googleUser')
+            pool.close.bind(pool);
+            return result.recordset ? result.recordset[0] : null;
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     async putUpDataUser() {
-
         const pool = (await dbConnection());
         const result = await pool
             .request()
@@ -150,7 +169,7 @@ class User {
             .input('googleUser', sql.VarChar(100), this._googleUser)
             .query('PUT_SP_UPDATA_User @idUser, @nameUser,@lastnameUser,@passwordUser,@imgUser,@roleUser,@statusUser,@googleUser')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset ? result.recordset[0] : null;
     }
     async patchUpPasswordUser() {
         const pool = (await dbConnection());
