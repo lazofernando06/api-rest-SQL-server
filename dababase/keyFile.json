@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "time-to-travel-app",
+  "private_key_id": "bfe98a28e0158b13293f4822445a32ccbe05456b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDfkEcZqjLrs71E\n1/H5eA7suGueXxfWeWhnjydItCQ6q57fR5Eoe0M2lJa6kZE6zXu0btpdWevCokoy\nFENmKwp9YAoStsVTWbDo+l1fEXqqd1ABLTewVeSwaEGVcWdNA1b6jDfnimlYzSlF\nGXHU3ysmciRa6QRbC/tOqL2ou0/Yl3Z4N0UiERwBnqIUbWa08TJCd7sm1aiuD5Jm\n9O1WNb8GepNNCuJe1RBC9izaLtWN+SYJAQ5vIjCFvejfSUjsahlADIyXpNfA0Uz+\nzLGPWft1CUaOmSyxl8fbD2WHvhkFfaD00VVvAC0NTaWHr+j9pr1TVGwEFEYxqUai\nP/uHcW0LAgMBAAECggEAE86Jb62QesLYyAjy/PCuyQWi/aWCjA02lRI6rBDPTH/L\nzalecKRqQiNfYhX0GxSwdIrSGUb86Ch1UI/sbSVVqRT0rE+TSb0R1Ocb/AiLtYWb\nlqpMaEWIqaGa/Rc05guGAO2iWFOyQ9yG+JwpmLwEhSpdeTM/oD3LNpIk0RZ2gdBP\n5sSLdtosX1XGF66EqH1SJXeNNobOtVrTun9c0nxy054OoZbKaEW46BDfGtRmjsyN\nhq1bLqkY9XDVY6vBj3DuslC1/mO4biBHePNuc42a8rv7P6+TSHGxQjAuS7p3V9sY\nGaysR1sQ9uAK+ZfuKHACasxi87eOzx5qg16eL7fZqQKBgQDvfstNqyU9lsIMJgvz\n5h8/p2iv4bc/kOSNrf9IrKtMhvZVJKJD92FTSODkZh97LUHLohVFtSukfZekTHeQ\n7N0Vx94SCgTN5BGGtoEPsP94zV9GLGHWJy+H/Yf3U8PuA/vSqDBl6AUszGT5NTJj\nTDxVULD6N6nDwUYjyCNtRmmAuQKBgQDu+GoZqTDwbqfhFIgDJAVHtpazffn1tt5n\nZ1urzX48+EsK6zTRSkEejZZbn6ftWzsfucab8YR1cVykjYxnRh8l+OONPRJwJi5A\nQrWE0p5jDcncmOMCJsYNCOhQjDP8CSnx9fLljYaeup1deXKzRTPWig5y5o1cjtEs\ntg7IrRgR4wKBgQDGJmLxBOwP8/7i7EuxZTFvigQcmSTza98dtdtkdrBX5cZDlcbH\ncxLMRJ0Fe9UKJdytLZJqFUZhlyPy5O18M+2Lyszaof1tmAhELBXGNMx6V3k/ZxMf\ni1ZRLpvjLyQJdrRQi6VXe0tk0EuuwKvK6lV0xQlYTNuhwfRVQI7HJ528yQKBgG5i\nv5gE6H9XjiLRehaBUBMVS72z5n/TLh7zxouwy6xcQUXU6jv3Ied8HcVLFaX1q3T3\nOsAUK0yYxeOZIw8dfAvtUSeP23GEoX67kd+97r3ww5sr4EjBImEpCS8T5Ht6vC5x\nnvbcjh/KMiDYldwrjkt+0DfROeFUc1lE68VU97ZjAoGBAJ2nLVPs93MP55jFur3H\n16mfZtpl/cOK6hLYGuIdrufB2NfCAc4BwoOf/gfN9sGhUAXDqYSFhBoS4wn0+cDP\nPpYPLNfsZ3ABVlEWg22LiAlncCbqk2Csd3gv+MhzgJvCvIK4qPcSyCQF9gAiBLtz\nxFJBJbNEzdyPqxZnQZztP7ES\n-----END PRIVATE KEY-----\n",
+  "client_email": "timetotravel123456@time-to-travel-app.iam.gserviceaccount.com",
+  "client_id": "101824853460409716549",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/timetotravel123456%40time-to-travel-app.iam.gserviceaccount.com"
+}
