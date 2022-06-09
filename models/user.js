@@ -179,7 +179,7 @@ class User {
             .input('passwordUser', sql.VarChar(50), this._passwordUser)
             .query('PATCH_SP_UPDATA_Password @idUser,@passwordUser')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset ? result.recordset[0] : null;
     }
 
     async deleteUserRecord() {
@@ -189,7 +189,7 @@ class User {
             .input('idUser', sql.Int, this._idUser)
             .query('DELETE_SP_UPDATA_RecordUser @idUser')
         pool.close.bind(pool);
-        return result.recordset;
+        return result.recordset ? result.recordset[0] : null;
     }
 }
 

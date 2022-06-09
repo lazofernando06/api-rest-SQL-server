@@ -86,10 +86,10 @@ router.put('/:id', [
         */
        validatorField
 ],userPut);
-router.patch('/item/password/', userPatchPassword);
-router.delete('/item/', [
-        validateJWT,
-        isAdminRole,
+router.patch('/password/:id', userPatchPassword);
+router.delete('/:id', [
+     //   validateJWT,
+       // isAdminRole,
         validatorField
 ], userDelete);
 

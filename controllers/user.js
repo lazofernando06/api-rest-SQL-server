@@ -31,7 +31,6 @@ const userGet_x_id = async (req = request, res = response) => {
         item = 'email';
         result = await user.getRecordByEmail();
     }
-    console.log(user.idUser, 'id');
     if (result === null) {
         return res.json({
             msg: `El parametro sugerido: ${req.params.id} no existe en la DB`
@@ -86,54 +85,65 @@ const userPut = async (req = request, res = response) => {
 
 }
 const userPatchPassword = async (req, res = response) => {
-    const { id, email } = req.query;
-    const { password } = req.body;
-
     let user = new User();
-    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
-    user.emailUser = email;
-    user.passwordUser = password;
-    let [register] = await user.searchItem();
-    if (id === undefined) {
-        user.idUser = register.id;
+    let result = null;
+    let item = '';
+    user.passwordUser = req.body.password;
+    if (Number(req.params.id)) {
+        user.idUser = Number(req.params.id);
+        item = 'id';
+        result = await user.getRecordById();
+    } else {
+        user.emailUser = req.params.id;
+        item = 'email';
+        result = await user.getRecordByEmail();
+        user.idUser = result.id;
     }
-    if (email === undefined) {
-        user.emailUser = register.email;
+    if (result === null) {
+        return res.json({
+            msg: `El parametro sugerido: ${req.params.id} no existe en la DB`
+        });
     }
 
-    let result = 'No se pudo cambiar la contraseña';
-
-    if (register.password != user.passwordUser) {
-        result = await user.patchUpPasswordUser();
+    if (result.password === user.passwordUser) {
+        return res.json({
+            msg: 'La contraseña ingresaada es la misma'
+        });
     }
-
+    result = await user.patchUpPasswordUser();
     res.json({
-        msg: "patch API - controlador",
+        msg: `la contraseña del ${item} a sido actualizada`,
         result
     });
+
 }
 const userDelete = async (req, res = response) => {
-    /*
-    let result = 'usuario no existe en la base';
     let user = new User();
-    user.idUser = req.query.id === undefined ? undefined : Number(req.query.id);
-    user.emailUser = req.query.email;
-    let register = await user.searchItem();
-    if (register != null) {
-        if (req.query.id === undefined) {
-            user.idUser = register.id;
-        }
-        if (user.idUser) {
-            result = await user.deleteUserRecord();
-        }
+    let result = null;
+    let item = '';
+    if (Number(req.params.id)) {
+        user.idUser = Number(req.params.id);
+        item = 'id';
+        result = await user.getRecordById();
+    } else {
+        user.emailUser = req.params.id;
+        item = 'email';
+        result = await user.getRecordByEmail();
+        console.log(result,'resultado');
+        user.idUser = result==null?null:result.id;
     }
-    //integridad referencial
+    if (result === null) {
+        return res.json({
+            msg: `la cuenta del ${item}: ${req.params.id} no existe en la DB`
+        });
+    }
 
+    result = await user.deleteUserRecord();
     res.json({
-        msg: "delete API - controlador",
+        msg: `la cuenta del ${item}: ${req.params.id} a sido eliminada`,
         result
     });
-    */
+
 }
 /*
 const userGetOthers = (req, res = response) => {
